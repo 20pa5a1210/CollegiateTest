@@ -5,4 +5,5 @@ export type StudentInput = {
     branch: string
     password: string
     confirmpassword: string
+    status: string
 }

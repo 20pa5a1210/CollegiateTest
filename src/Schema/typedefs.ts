@@ -16,15 +16,15 @@ export const typeDefs = gql`
         confirmpassword: String!
     }
     type Query {
-        getStudentById(id: ID!): Student
+        getStudentById(id: ID!): StudentResponse!
     }
 
-    type StudentMutationResponse {
+    type StudentResponse {
         success: Boolean!
         message: String
         student: Student
     }
     type Mutation {
-        insertStudent(input: StudentInput!): StudentMutationResponse!
+        insertStudent(input: StudentInput!): StudentResponse!
     }
 `;
