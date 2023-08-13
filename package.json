@@ -4,8 +4,8 @@
   "description": "graphql server online examination app",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec ts-node build/server.js",
-    "build": "tsc -p ."
+    "watch": "tsc -w",
+    "start": "nodemon dist/server.js"
   },
   "keywords": [
     "graphql",
