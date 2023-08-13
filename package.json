@@ -1,0 +1,32 @@
+{
+  "name": "graphql-server",
+  "version": "1.0.0",
+  "description": "graphql server online examination app",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon --exec ts-node build/server.js",
+    "build": "tsc -p ."
+  },
+  "keywords": [
+    "graphql",
+    "typescript",
+    "postgres",
+    "apollo-server"
+  ],
+  "author": "surya undapalli",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.9.1",
+    "@types/graphql": "^14.5.0",
+    "graphql": "^16.7.1",
+    "graphql-tag": "^2.12.6",
+    "pg": "^8.11.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.10",
+    "@types/pg": "^8.10.2",
+    "nodemon": "^3.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  }
+}
