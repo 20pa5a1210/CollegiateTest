@@ -1,4 +1,8 @@
 import { Pool } from "pg";
+import { FacultyResp, SubjectResp } from "src/Types/FacultyTypes";
+import { QueryResponse } from "src/Types/ResponseTypes";
+import { getSubjectById, getSubjectsByFacultyEmail, insertSubject } from "./Functions/SubjectTable";
+import { getFacultyByEmail, insertFaculty } from "./Functions/FacultyTable";
 
 export class FacultyApi {
     private pool: Pool;
@@ -13,48 +17,25 @@ export class FacultyApi {
         facultynumber: string,
         password: string,
         confirmpassword: string
-    ) {
-
-        try {
-
-            const { success, faculty } = await this.getFacultyByEmail(facultyemail);
-
-            if (success) {
-                return { success: false, message: `Faculty with facultyemail: ${facultyemail} already exists`, faculty: faculty };
-            }
-
-            const query = {
-                text: 'INSERT INTO faculty(facultyemail, facultyname, facultynumber, password, confirmpassword) VALUES($1, $2, $3, $4, $5) returning *',
-                values: [facultyemail, facultyname, facultynumber, password, confirmpassword],
-            }
-
-            const { rows } = await this.pool.query(query);
-
-            return { success: true, message: `Faculty with facultyemail: ${facultyemail} inserted successfully`, faculty: rows[0] };
-
-        } catch (error) {
-            return error;
-        }
-
-
+    ): Promise<QueryResponse<FacultyResp>> {
+        return insertFaculty(this.pool, facultyemail, facultyname, facultynumber, password, confirmpassword)
     }
-    async getFacultyByEmail(facultyemail: string) {
-        try {
-            const query = {
-                text: 'SELECT * FROM faculty WHERE facultyemail = $1',
-                values: [facultyemail],
-            }
-
-            const { rows: Faculty } = await this.pool.query(query);
-
-            if (Faculty.length > 0) {
-                return { success: true, message: `Faculty with facultyemail: ${facultyemail} found`, faculty: Faculty[0] };
-            }
-
-            return { success: false, message: `Faculty with facultyemail: ${facultyemail} not found`, faculty: null };
-
-        } catch (error) {
-            return error;
-        }
+    async getFacultyByEmail(facultyemail: string)
+        : Promise<QueryResponse<FacultyResp>> {
+        return getFacultyByEmail(this.pool, facultyemail);
     }
+
+    async insertSubject(subjectid: string, subjectname: string, facultyemail: string)
+        : Promise<QueryResponse<SubjectResp>> {
+        return insertSubject(this.pool, subjectid, subjectname, facultyemail);
+    }
+
+    async getSubjectById(subjectid: string): Promise<QueryResponse<SubjectResp>> {
+        return getSubjectById(this.pool, subjectid);
+    }
+
+    async getSubjectsByFacultyEmail(facultyemail: string): Promise<QueryResponse<SubjectResp[]>> {
+        return getSubjectsByFacultyEmail(this.pool, facultyemail);
+    }
+
 }
