@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-export const typeDefs = gql`
+export const StudentDefs = gql`
     type Student {
         studentid: ID!
         name: String!

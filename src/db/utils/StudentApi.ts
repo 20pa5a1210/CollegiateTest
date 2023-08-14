@@ -17,10 +17,11 @@ export class StudentApi {
     ): Promise<{ success: boolean, message: string, student: StudentInput | null }> {
 
         try {
-            const { rows: student }: QueryResult<StudentInput> = await this.pool.query('SELECT * FROM students WHERE studentid = $1', [studentid]);
 
-            if (student.length > 0) {
-                return { success: false, message: `Student with studentid: ${studentid} already exists`, student: student[0] };
+            const { success, student } = await this.getStudentById(studentid);
+
+            if (success) {
+                return { success: false, message: `Student with studentid: ${studentid} already exists`, student: student };
             }
 
             const query = {
