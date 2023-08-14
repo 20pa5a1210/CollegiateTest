@@ -6,3 +6,8 @@ export type FacultyResp = {
     confirmpassword: string
     status: string
 }
+export type SubjectResp = {
+    subjectname: string
+    subjectid: string
+    facultyemail: string
+}
