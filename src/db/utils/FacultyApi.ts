@@ -1,9 +1,9 @@
 import { Pool } from "pg";
-import { FacultyResp, SubjectResp } from "src/Types/FacultyTypes";
+import { FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
 import { QueryResponse } from "src/Types/ResponseTypes";
 import { getSubjectById, getSubjectsByFacultyEmail, insertSubject } from "./Functions/SubjectTable";
 import { getFacultyByEmail, insertFaculty } from "./Functions/FacultyTable";
-
+import { insertQuestion } from "./Functions/QuestionsTable";
 export class FacultyApi {
     private pool: Pool;
 
@@ -36,6 +36,10 @@ export class FacultyApi {
 
     async getSubjectsByFacultyEmail(facultyemail: string): Promise<QueryResponse<SubjectResp[]>> {
         return getSubjectsByFacultyEmail(this.pool, facultyemail);
+    }
+
+    async insertQuestions(questions: QuestionInput[]): Promise<QueryResponse<QuestionInput[]>> {
+        return insertQuestion(this.pool, questions)
     }
 
 }

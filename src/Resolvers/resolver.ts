@@ -1,6 +1,6 @@
 import { StudentInput } from "src/Types/StudentTypes";
 import { MyContext } from "../server";
-import { FacultyResp, SubjectResp } from "src/Types/FacultyTypes";
+import { FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
 
 const resolvers = {
     Query: {
@@ -21,8 +21,10 @@ const resolvers = {
         },
         addSubject: async (_: any, { subject }: { subject: SubjectResp }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.facultyApi.insertSubject(subject.subjectid, subject.subjectname, subject.facultyemail);
+        },
+        addQuestions: async (_: any, { questions }: { questions: QuestionInput[] }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            return await dataSources.facultyApi.insertQuestions(questions);
         }
-
     },
     Faculty: {
         subjects: async (parent: FacultyResp, _: any, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
