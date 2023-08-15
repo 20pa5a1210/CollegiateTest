@@ -25,4 +25,16 @@ export type QuestionInput = {
     answer: string
 }
 
+export type ExamResponse = {
+    examid: string
+    subjectid: string
+    facultyemail: string
+    starttime: string
+    endtime: string
+    totalmarks: number
+    passmarks: number
+    totalduration: number
+    createdat: string
+}
+
 

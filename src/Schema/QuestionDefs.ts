@@ -1,7 +1,24 @@
 import gql from "graphql-tag";
 
-export const ExamsDefs = gql`
-    type Questions{
+export const QuestionsDefs = gql`
+    type Exam {
+        examid: ID!
+        subjectid : String!
+        facultyemail : String!
+        starttime : String!
+        endtime : String!
+        totalmarks : Int!
+        passmarks : Int!
+        totalduration : Int!
+        createdat : String!
+        questions: [Questions!]
+    }
+    type ExamResponse {
+        success: Boolean!
+        message: String!
+        data: Exam
+    }
+    type Questions {
         questionid: ID!
         examid: String!
         question: String!
@@ -10,33 +27,36 @@ export const ExamsDefs = gql`
     }
 
 
-    input Toptions{
+    input Toptions {
         option1: String!
         option2: String
         option3: String
         option4: String
     }
-    type Ioptions{
+    type Ioptions {
         option1: String!
         option2: String
         option3: String
         option4: String
     }
 
-    input QuestionInput{
+    input QuestionInput {
         examid: ID!
         question: String!
         options: Toptions! 
         answer: String!
     }
 
-    type QuestionResponse{
+    type QuestionResponse {
         success: Boolean!
         message: String!
         data: [Questions!]
     }
 
-    type Mutation{
+    type Mutation {
         addQuestions(questions: [QuestionInput!]!): QuestionResponse!
+    }
+    type Query {
+        getExamDetails(examid: ID!): ExamResponse!
     }
 `

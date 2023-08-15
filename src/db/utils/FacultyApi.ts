@@ -1,9 +1,9 @@
 import { Pool } from "pg";
-import { FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
+import { ExamResponse, FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
 import { QueryResponse } from "src/Types/ResponseTypes";
 import { getSubjectById, getSubjectsByFacultyEmail, insertSubject } from "./Functions/SubjectTable";
 import { getFacultyByEmail, insertFaculty } from "./Functions/FacultyTable";
-import { insertQuestion } from "./Functions/QuestionsTable";
+import { getQuestions, insertQuestion } from "./Functions/QuestionsTable";
 export class FacultyApi {
     private pool: Pool;
 
@@ -40,6 +40,34 @@ export class FacultyApi {
 
     async insertQuestions(questions: QuestionInput[]): Promise<QueryResponse<QuestionInput[]>> {
         return insertQuestion(this.pool, questions)
+    }
+
+    async getQuestions(examid: string): Promise<QueryResponse<QuestionInput[]>> {
+        return getQuestions(this.pool, examid);
+    }
+    async getExamDetails(examid: string): Promise<QueryResponse<ExamResponse>> {
+        try {
+            const query = {
+                text: `SELECT * FROM exams WHERE examid = $1`,
+                values: [examid]
+            }
+            const { rows: ExamData } = await this.pool.query(query);
+
+            if (ExamData.length === 0) {
+                return {
+                    success: false,
+                    message: "No Exam Found",
+                    data: null
+                }
+            }
+            return {
+                success: true,
+                message: "Exam Found",
+                data: ExamData[0]
+            }
+        } catch (error) {
+            return error
+        }
     }
 
 }

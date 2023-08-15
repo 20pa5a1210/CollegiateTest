@@ -1,6 +1,6 @@
 import { StudentInput } from "src/Types/StudentTypes";
 import { MyContext } from "../server";
-import { FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
+import { ExamResponse, FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
 
 const resolvers = {
     Query: {
@@ -9,6 +9,9 @@ const resolvers = {
         },
         getFacultyByEmail: async (_: any, { facultyemail }: { facultyemail: string }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.facultyApi.getFacultyByEmail(facultyemail);
+        },
+        getExamDetails: async (_: any, { examid }: { examid: string }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            return await dataSources.facultyApi.getExamDetails(examid);
         }
     },
 
@@ -34,7 +37,17 @@ const resolvers = {
                 return response.data;
             }
             return [];
-        }
+        },
+    },
+    Exam: {
+        questions: async (parent: ExamResponse, _: any, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            const response = await dataSources.facultyApi.getQuestions(parent.examid);
+
+            if (response.success) {
+                return response.data;
+            }
+            return [];
+        },
     }
 }
 export default resolvers;

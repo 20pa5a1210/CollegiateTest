@@ -40,3 +40,20 @@ export async function insertQuestion(
         return error;
     }
 }
+
+export async function getQuestions(pool: Pool, examid: string): Promise<QueryResponse<QuestionInput[]>> {
+    try {
+        const query = {
+            text: 'SELECT * FROM Questions WHERE examid = $1',
+            values: [examid],
+        }
+
+        const { rows } = await pool.query(query);
+        if (rows.length === 0) {
+            return { success: false, message: 'No questions found', data: [] }
+        }
+        return { success: true, message: 'Questions found', data: rows }
+    } catch (error) {
+        return error;
+    }
+}
