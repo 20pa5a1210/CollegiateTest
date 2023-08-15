@@ -4,6 +4,7 @@ import { QueryResponse } from "src/Types/ResponseTypes";
 import { getSubjectById, getSubjectsByFacultyEmail, insertSubject } from "./Functions/SubjectTable";
 import { getFacultyByEmail, insertFaculty } from "./Functions/FacultyTable";
 import { getQuestions, insertQuestion } from "./Functions/QuestionsTable";
+import { CreateExam, getExamDetails } from "./Functions/ExamTable";
 export class FacultyApi {
     private pool: Pool;
 
@@ -46,28 +47,10 @@ export class FacultyApi {
         return getQuestions(this.pool, examid);
     }
     async getExamDetails(examid: string): Promise<QueryResponse<ExamResponse>> {
-        try {
-            const query = {
-                text: `SELECT * FROM exams WHERE examid = $1`,
-                values: [examid]
-            }
-            const { rows: ExamData } = await this.pool.query(query);
-
-            if (ExamData.length === 0) {
-                return {
-                    success: false,
-                    message: "No Exam Found",
-                    data: null
-                }
-            }
-            return {
-                success: true,
-                message: "Exam Found",
-                data: ExamData[0]
-            }
-        } catch (error) {
-            return error
-        }
+        return getExamDetails(this.pool, examid);
+    }
+    async CreateExam(examData: ExamResponse): Promise<QueryResponse<ExamResponse>> {
+        return CreateExam(this.pool, examData);
     }
 
 }

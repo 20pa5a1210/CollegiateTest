@@ -49,6 +49,8 @@ export async function getQuestions(pool: Pool, examid: string): Promise<QueryRes
         }
 
         const { rows } = await pool.query(query);
+        console.log(rows);
+
         if (rows.length === 0) {
             return { success: false, message: 'No questions found', data: [] }
         }

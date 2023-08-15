@@ -10,6 +10,8 @@ export async function getSubjectsByFacultyEmail(pool: Pool, facultyemail: string
         }
 
         const { rows: Subjects }: QueryResult<SubjectResp> = await pool.query(query);
+        console.log(Subjects);
+
 
         if (Subjects.length > 0) {
             return { success: true, message: `Subjects found`, data: Subjects };

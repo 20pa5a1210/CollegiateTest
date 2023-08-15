@@ -13,6 +13,8 @@ export const QuestionsDefs = gql`
         createdat : String!
         questions: [Questions!]
     }
+
+
     type ExamResponse {
         success: Boolean!
         message: String!
@@ -52,9 +54,19 @@ export const QuestionsDefs = gql`
         message: String!
         data: [Questions!]
     }
+    input ExamInput {
+        subjectid : String!
+        facultyemail : String!
+        starttime : String!
+        endtime : String!
+        totalmarks : Int!
+        passmarks : Int!
+        totalduration : Int!
+    }
 
     type Mutation {
         addQuestions(questions: [QuestionInput!]!): QuestionResponse!
+        CreateExam(exam: ExamInput!):ExamResponse!
     }
     type Query {
         getExamDetails(examid: ID!): ExamResponse!

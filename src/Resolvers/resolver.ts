@@ -27,6 +27,10 @@ const resolvers = {
         },
         addQuestions: async (_: any, { questions }: { questions: QuestionInput[] }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.facultyApi.insertQuestions(questions);
+        },
+        CreateExam: async (_: any, { exam }: { exam: ExamResponse }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            return await dataSources.facultyApi.CreateExam(exam);
+
         }
     },
     Faculty: {
