@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import { Pool, QueryResult } from "pg";
 import { ExamResponse } from "src/Types/FacultyTypes";
 import { QueryResponse } from "src/Types/ResponseTypes";
 
@@ -8,7 +8,7 @@ export async function getExamDetails(pool: Pool, examid: string): Promise<QueryR
             text: `SELECT * FROM exams WHERE examid = $1`,
             values: [examid]
         }
-        const { rows: ExamData } = await pool.query(query);
+        const { rows: ExamData }: QueryResult<ExamResponse> = await pool.query(query);
 
         if (ExamData.length === 0) {
             return {
@@ -27,7 +27,6 @@ export async function getExamDetails(pool: Pool, examid: string): Promise<QueryR
     }
 }
 
-
 export async function CreateExam(pool: Pool, examData: ExamResponse): Promise<QueryResponse<ExamResponse>> {
 
     try {
@@ -36,7 +35,7 @@ export async function CreateExam(pool: Pool, examData: ExamResponse): Promise<Qu
             VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`,
             values: [examData.subjectid, examData.facultyemail, examData.starttime, examData.endtime, examData.totalmarks, examData.passmarks, examData.totalduration]
         }
-        const { rows } = await pool.query(query);
+        const { rows }: QueryResult<ExamResponse> = await pool.query(query);
 
         if (rows.length === 0) {
             return {
@@ -51,9 +50,6 @@ export async function CreateExam(pool: Pool, examData: ExamResponse): Promise<Qu
             data: rows[0]
         }
     } catch (error) {
-        console.log(error);
         return error
-        
     }
-
 }

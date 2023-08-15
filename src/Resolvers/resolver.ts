@@ -12,9 +12,15 @@ const resolvers = {
         },
         getExamDetails: async (_: any, { examid }: { examid: string }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.facultyApi.getExamDetails(examid);
-        }
+        },
+        getFaculty: async (_: any, { }: any, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            const response = await dataSources.facultyApi.getAllFaculty();
+            if (response.success) {
+                return response.data;
+            }
+            return [];
+        },
     },
-
     Mutation: {
         insertStudent: async (_: any, { input }: { input: StudentInput }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.studentApi.insertStudent(input.studentid, input.name, input.email, input.branch, input.password, input.confirmpassword);
@@ -42,6 +48,14 @@ const resolvers = {
             }
             return [];
         },
+        feedbacks: async (parent: FacultyResp, _: any, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            const response = await dataSources.facultyApi.getFeedbacksByFacultyEmail(parent.facultyemail);
+
+            if (response.success) {
+                return response.data;
+            }
+            return [];
+        }
     },
     Exam: {
         questions: async (parent: ExamResponse, _: any, { dataSources }: { dataSources: MyContext["dataSources"] }) => {

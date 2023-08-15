@@ -45,6 +45,4 @@ export async function insertFaculty(
     } catch (error) {
         return error;
     }
-
-
 }

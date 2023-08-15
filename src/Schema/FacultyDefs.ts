@@ -7,6 +7,12 @@ export const FacultyDefs = gql`
         facultynumber: String!
         status: String!
         subjects: [Subject]
+        feedbacks : [Feedback]
+    }
+
+    type Feedback {
+        feedbackid: ID!
+        feedbackmessage: String!
     }
 
     input FacultyInput {
@@ -40,6 +46,7 @@ export const FacultyDefs = gql`
     }
 
     type Query {
+        getFaculty : [Faculty]
         getFacultyByEmail(facultyemail: ID!): FacultyResponse!
     }
     type Mutation {

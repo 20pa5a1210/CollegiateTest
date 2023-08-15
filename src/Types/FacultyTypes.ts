@@ -37,4 +37,9 @@ export type ExamResponse = {
     createdat: string
 }
 
-
+export type FeedbackResponse = {
+    feedbackid: string
+    studentid: string
+    facultyemail: string
+    feedbackmessage: string
+}
