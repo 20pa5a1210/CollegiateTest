@@ -21,11 +21,7 @@ const resolvers = {
             return [];
         },
         getResult: async (_: any, { studentid, examid }: { studentid: string, examid: number }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
-            const res = await dataSources.resultApi.getResultsByExam(examid, studentid);
-            if (res.success) {
-                return res.data;
-            }
-            return []
+            return await dataSources.resultApi.getResultsByExam(examid, studentid);
         }
     },
     Mutation: {

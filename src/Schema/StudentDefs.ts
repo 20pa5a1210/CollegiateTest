@@ -40,17 +40,17 @@ export const StudentDefs = gql`
     }
     type Query {
         getStudentById(id: ID!): StudentResponse!
-        getResult(studentid: ID!, examid: ID!): [Result]
+        getResult(studentid: ID!, examid: ID!): ResultResponse!
     }
 
     type StudentResponse {
         success: Boolean!
-        message: String
+        message: String!
         data: Student
     }
     type ResultResponse {
         success: Boolean!
-        message: String
+        message: String!
         data: Result  
     }
     type Mutation {

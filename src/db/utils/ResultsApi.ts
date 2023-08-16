@@ -14,7 +14,7 @@ export class ResultApi {
         return getResults(this.pool, studentid);
     }
 
-    async getResultsByExam(examid: number, studentid: string): Promise<QueryResponse<StudentResult[]>> {
+    async getResultsByExam(examid: number, studentid: string): Promise<QueryResponse<StudentResult>> {
         return getResultOne(this.pool, examid, studentid);
     }
 
