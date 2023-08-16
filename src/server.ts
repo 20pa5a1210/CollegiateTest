@@ -7,10 +7,12 @@ import { FacultyApi } from "./db/utils/FacultyApi";
 import { StudentDefs } from "./Schema/StudentDefs";
 import { FacultyDefs } from "./Schema/FacultyDefs";
 import { QuestionsDefs } from "./Schema/QuestionDefs";
+import { ResultApi } from "./db/utils/ResultsApi";
 export interface MyContext {
     dataSources: {
         studentApi: StudentApi
         facultyApi: FacultyApi
+        resultApi: ResultApi
     }
 }
 
@@ -22,10 +24,12 @@ const startServer = async () => {
         context: async () => {
             const studentApi = new StudentApi(pool);
             const facultyApi = new FacultyApi(pool);
+            const resultApi = new ResultApi(pool);
             return {
                 dataSources: {
                     studentApi,
-                    facultyApi
+                    facultyApi,
+                    resultApi
                 }
             }
         }

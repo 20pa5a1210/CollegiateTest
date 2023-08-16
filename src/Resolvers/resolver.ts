@@ -1,4 +1,4 @@
-import { StudentInput } from "src/Types/StudentTypes";
+import { StudentInput, StudentResult } from "src/Types/StudentTypes";
 import { MyContext } from "../server";
 import { ExamResponse, FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
 
@@ -20,6 +20,13 @@ const resolvers = {
             }
             return [];
         },
+        getResult: async (_: any, { studentid, examid }: { studentid: string, examid: number }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            const res = await dataSources.resultApi.getResultsByExam(examid, studentid);
+            if (res.success) {
+                return res.data;
+            }
+            return []
+        }
     },
     Mutation: {
         insertStudent: async (_: any, { input }: { input: StudentInput }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
@@ -36,7 +43,9 @@ const resolvers = {
         },
         CreateExam: async (_: any, { exam }: { exam: ExamResponse }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.facultyApi.CreateExam(exam);
-
+        },
+        insertResult: async (_: any, { result }: { result: StudentResult }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            return await dataSources.resultApi.insertResult(result);
         }
     },
     Faculty: {
@@ -66,6 +75,16 @@ const resolvers = {
             }
             return [];
         },
+    },
+    Student: {
+        results: async (parent: StudentInput, _: any, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            const response = await dataSources.resultApi.getResults(parent.studentid);
+
+            if (response.success) {
+                return response.data;
+            }
+            return [];
+        }
     }
 }
 export default resolvers;
