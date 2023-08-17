@@ -8,6 +8,7 @@ import { StudentDefs } from "./Schema/StudentDefs";
 import { FacultyDefs } from "./Schema/FacultyDefs";
 import { QuestionsDefs } from "./Schema/QuestionDefs";
 import { ResultApi } from "./db/utils/ResultsApi";
+import { MiscDefs } from "./Schema/MiscDefs";
 export interface MyContext {
     dataSources: {
         studentApi: StudentApi
@@ -18,7 +19,7 @@ export interface MyContext {
 
 const startServer = async () => {
 
-    const server = new ApolloServer<MyContext>({ typeDefs: [StudentDefs, FacultyDefs, QuestionsDefs], resolvers });
+    const server = new ApolloServer<MyContext>({ typeDefs: [StudentDefs, FacultyDefs, QuestionsDefs, MiscDefs], resolvers });
     const { url } = await startStandaloneServer(server, {
         listen: { port: 4000 },
         context: async () => {

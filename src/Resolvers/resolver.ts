@@ -1,6 +1,7 @@
 import { StudentInput, StudentResult } from "src/Types/StudentTypes";
 import { MyContext } from "../server";
 import { ExamResponse, FacultyResp, QuestionInput, SubjectResp } from "src/Types/FacultyTypes";
+import { Announcements } from "src/Types/ResponseTypes";
 
 const resolvers = {
     Query: {
@@ -22,7 +23,14 @@ const resolvers = {
         },
         getResult: async (_: any, { studentid, examid }: { studentid: string, examid: number }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.resultApi.getResultsByExam(examid, studentid);
+        },
+        getAnnouncements: async (_: any, { }: any, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            return await dataSources.resultApi.getAnnouncements();
+        },
+        getAnnouncementById: async (_: any, { announcementid }: { announcementid: string }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            return await dataSources.resultApi.getAnnouncementById(announcementid);
         }
+
     },
     Mutation: {
         insertStudent: async (_: any, { input }: { input: StudentInput }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
@@ -42,6 +50,9 @@ const resolvers = {
         },
         insertResult: async (_: any, { result }: { result: StudentResult }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
             return await dataSources.resultApi.insertResult(result);
+        },
+        addAnnouncement: async (_: any, { announcement }: { announcement: Announcements }, { dataSources }: { dataSources: MyContext["dataSources"] }) => {
+            return await dataSources.resultApi.addAnnouncement(announcement.title, announcement.content, announcement.postedby);
         }
     },
     Faculty: {
