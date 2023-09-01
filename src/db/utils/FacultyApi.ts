@@ -4,7 +4,7 @@ import { QueryResponse } from "src/Types/ResponseTypes";
 import { getSubjectById, getSubjectsByFacultyEmail, insertSubject } from "./Functions/SubjectTable";
 import { getFacultyByEmail, insertFaculty } from "./Functions/FacultyTable";
 import { getQuestions, insertQuestion } from "./Functions/QuestionsTable";
-import { CreateExam, getExamDetails } from "./Functions/ExamTable";
+import { CreateExam, deleteExam, getExamDetails } from "./Functions/ExamTable";
 import { getFeedbacksByFacultyEmail } from "./Functions/FeedbackTable";
 export class FacultyApi {
     private pool: Pool;
@@ -13,7 +13,7 @@ export class FacultyApi {
         this.pool = pool;
     }
 
-    // get all faculty 
+    // get all faculty
     async getAllFaculty(): Promise<QueryResponse<FacultyResp[]>> {
         const { rows } = await this.pool.query<FacultyResp>(`SELECT * FROM faculty`);
         if (rows.length === 0) {
@@ -76,5 +76,9 @@ export class FacultyApi {
     // get feedbacks by faculty email
     async getFeedbacksByFacultyEmail(facultyemail: string): Promise<QueryResponse<FeedbackResponse[]>> {
         return getFeedbacksByFacultyEmail(this.pool, facultyemail);
+    }
+    // delete exam by examid
+    async deleteExam(examid: string): Promise<QueryResponse<ExamResponse>> {
+        return deleteExam(this.pool, examid);
     }
 }
