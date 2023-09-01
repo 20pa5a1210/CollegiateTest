@@ -53,3 +53,25 @@ export async function CreateExam(pool: Pool, examData: ExamResponse): Promise<Qu
         return error
     }
 }
+
+
+export async function deleteExam(pool: Pool, examid: string) {
+
+    try {
+
+        const query = {
+            text: `DELETE FROM exams WHERE examid = $1`,
+            values: [examid]
+        }
+        await pool.query(query);
+        return {
+            success: true,
+            message: "Exam Deleted",
+            data: null
+        }
+
+    } catch (error) {
+        return error
+    }
+
+}
