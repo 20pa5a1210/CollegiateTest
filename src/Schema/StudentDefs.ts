@@ -51,7 +51,7 @@ export const StudentDefs = gql`
     type ResultResponse {
         success: Boolean!
         message: String!
-        data: Result  
+        data: Result
     }
     type Mutation {
         insertStudent(input: StudentInput!): StudentResponse!
